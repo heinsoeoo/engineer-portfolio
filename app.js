@@ -79,7 +79,7 @@ floatingLinks.forEach(link=>link.addEventListener('click',event=>{
  if(navigationFrame!==null)cancelAnimationFrame(navigationFrame);
  const target=document.querySelector(link.getAttribute('href'));
  const start=window.scrollY;
- const end=Math.max(0,Math.min(document.documentElement.scrollHeight-window.innerHeight,target.getBoundingClientRect().top+start-45));
+ const end=link.dataset.section==='main'?0:Math.max(0,Math.min(document.documentElement.scrollHeight-window.innerHeight,target.getBoundingClientRect().top+start-45));
  const distance=Math.abs(end-start);
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  const duration=reduced?0:Math.min(1700,Math.max(550,600+distance*.18));
