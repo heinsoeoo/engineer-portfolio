@@ -120,3 +120,24 @@ floatingLinks.forEach(link=>link.addEventListener('click',event=>{
 ['wheel','touchstart'].forEach(type=>window.addEventListener(type,()=>{if(navigationScrollLocked)finishNavigationScroll()},{passive:true}));
 window.addEventListener('keydown',event=>{if(navigationScrollLocked&&['ArrowUp','ArrowDown','PageUp','PageDown','Home','End','Escape',' '].includes(event.key))finishNavigationScroll()});
 if(document.fonts)document.fonts.ready.then(()=>{measureNavGeometry();blobTarget=null;window.moveNavBlob()});
+
+// A short, skippable opening on each page load. Never blocks the site permanently.
+const welcome=document.getElementById('welcome');
+const welcomeSkip=document.getElementById('welcome-skip');
+const welcomeReduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const contentBehindWelcome=[...document.body.children].filter(el=>el!==welcome && el.tagName!=='SCRIPT');
+let welcomeDismissed=false;
+contentBehindWelcome.forEach(el=>el.inert=true);
+const originalOverflow=document.body.style.overflow;document.body.style.overflow='hidden';
+welcomeSkip.focus({preventScroll:true});
+function dismissWelcome(){
+ if(welcomeDismissed)return;welcomeDismissed=true;
+ clearTimeout(welcomeTimer);
+ contentBehindWelcome.forEach(el=>el.inert=false);document.body.style.overflow=originalOverflow;
+ welcome.classList.add('leaving');welcome.setAttribute('aria-hidden','true');welcome.inert=true;
+ if(document.activeElement===welcomeSkip)document.querySelector('.wordmark').focus({preventScroll:true});
+ setTimeout(()=>welcome.remove(),welcomeReduced?0:850);
+}
+const welcomeTimer=setTimeout(dismissWelcome,welcomeReduced?900:2400);
+welcomeSkip.addEventListener('click',dismissWelcome);
+welcome.addEventListener('keydown',event=>{if(event.key==='Escape')dismissWelcome();if(event.key==='Tab'){event.preventDefault();welcomeSkip.focus()}});
