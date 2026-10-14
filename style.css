@@ -76,3 +76,10 @@ html[data-theme=dark] .floating-nav.has-blob a.active,html[data-theme=dark] .flo
 html[data-theme=dark] .floating-nav a:hover{background:#c7b08316;color:var(--accent)}
 .theme svg{color:var(--accent)}.email{border-bottom-color:var(--gold)}
 .button:hover{background:#342b1d}.tags span{border-color:var(--line)}
+
+/* Light mode controls retain the original charcoal and sage palette. */
+html:not([data-theme="dark"]) .theme svg{color:#252722}
+html:not([data-theme="dark"]) .floating-nav a{color:#626b5b}
+html:not([data-theme="dark"]) .floating-nav .nav-blob{background:#252d22}
+html:not([data-theme="dark"]) .floating-nav.has-blob a.active,html:not([data-theme="dark"]) .floating-nav.has-blob a.active:hover{color:#eff0e7;background:transparent}
+html:not([data-theme="dark"]) .floating-nav a:hover{background:#51644118;color:#252d22}
