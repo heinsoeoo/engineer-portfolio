@@ -1,30 +1,21 @@
 # Hein Soe Oo — Personal portfolio
 
-Responsive portfolio with dark/light mode and confidential-project placeholders.
-
-Live site: https://engineering-portfolio-hein-1014.softdell64.chatgpt.site
+Live website: https://heinsoeoo.github.io
 
 ## Run locally
 
-```sh
-python3 -m http.server 8080
-```
-
-Open http://localhost:8080. No installation or build required.
+Run `python3 -m http.server 8080` and open http://localhost:8080. No build required.
 
 ## Customize
 
 - content.js: projects, skills, experience, contact links.
-- index.html: headline, biography and metadata.
-- style.css: colors, typography and layout.
-- app.js: interactions and theme persistence.
+- index.html: copy, metadata, and social preview configuration.
+- style.css: layout, colors, and motion.
+- app.js: interactions.
+- social-preview.png: sharing image.
 
-## Deploy
+## Publishing
 
-Upload index.html, style.css, content.js and app.js to a static host. Use no build command and publish directory `.`. All asset paths are relative.
+GitHub Pages deploys the main branch root automatically after a push. The Sites-hosted copy is separate and requires its own deployment.
 
-GitHub changes do not automatically update the Sites deployment; redeploy or connect this repository to a static hosting service.
-
-## Content
-
-Project interfaces are clearly labeled illustrations. Replace them only with approved project details and verified outcomes. Employment and technologies are based on the supplied CV and user confirmations: Legacy FA is current with a Team Lead role; EDKA was Hybrid.
+Project cards are illustrative placeholders; replace only with approved details and verified outcomes.
