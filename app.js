@@ -19,3 +19,17 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'Intersecti
  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}}),{threshold:0.08});
  reveals.forEach(el=>{el.classList.add('reveal');observer.observe(el)});
 }
+
+// Keep the floating menu aligned with the section being read.
+const floatingLinks=[...document.querySelectorAll('.floating-nav a')];
+const trackedSections=[document.querySelector('.hero'),...['work','about','experience','contact'].map(id=>document.getElementById(id))];
+let navFramePending=false;
+function updateFloatingNav(){
+ let current='main';
+ for(const section of trackedSections){if(section.getBoundingClientRect().top<=window.innerHeight*.4)current=section.id||'main'}
+ if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-12)current='contact';
+ floatingLinks.forEach(link=>{const active=link.dataset.section===current;link.classList.toggle('active',active);if(active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current')});
+ navFramePending=false;
+}
+window.addEventListener('scroll',()=>{if(!navFramePending){navFramePending=true;requestAnimationFrame(updateFloatingNav)}},{passive:true});
+window.addEventListener('resize',updateFloatingNav);updateFloatingNav();

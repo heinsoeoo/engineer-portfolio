@@ -15,3 +15,15 @@ html.motion-ready .reveal.is-visible{opacity:1;transform:none}
 dialog[open]{animation:dialog-enter .22s ease both}
 @keyframes dialog-enter{from{opacity:0;transform:translateY(7px) scale(.99)}to{opacity:1;transform:none}}
 }
+
+/* Floating navigation: an elevated glass capsule with safe-area spacing. */
+header nav{display:none}
+.floating-nav{position:fixed;z-index:40;bottom:calc(22px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);display:flex;gap:5px;padding:7px;border:1px solid rgba(255,255,255,.65);border-radius:28px;background:rgba(244,243,238,.86);backdrop-filter:blur(24px) saturate(150%);-webkit-backdrop-filter:blur(24px) saturate(150%);box-shadow:0 12px 35px #17201320,0 2px 6px #17201312,inset 0 1px 0 #ffffff80;width:max-content;max-width:calc(100vw - 28px)}
+.floating-nav a{display:flex;align-items:center;gap:7px;padding:12px 16px;border-radius:22px;font-size:12px;color:#626b5b;transition:background-color .25s ease,color .25s ease,transform .2s ease;white-space:nowrap}
+.floating-nav a>span:first-child{font-size:18px;line-height:1}
+.floating-nav a.active{background:#252d22;color:#eff0e7;box-shadow:0 2px 8px #17201320}
+.floating-nav a:hover{background:#51644118;color:#252d22}.floating-nav a.active:hover{background:#34432d;color:#fff}
+html[data-theme=dark] .floating-nav{background:rgba(35,43,32,.86);border-color:#ffffff25;box-shadow:0 12px 35px #0005,inset 0 1px 0 #ffffff15}
+html[data-theme=dark] .floating-nav a{color:#bac4b2}html[data-theme=dark] .floating-nav a.active{background:#dbe8ce;color:#252d22}html[data-theme=dark] .floating-nav a:hover{background:#ffffff12;color:#eff0e7}html[data-theme=dark] .floating-nav a.active:hover{background:#c7dbb6;color:#252d22}
+footer{padding-bottom:120px}html{scroll-padding-bottom:120px}
+@media(max-width:600px){.floating-nav{gap:2px;padding:6px;border-radius:26px;bottom:calc(18px + env(safe-area-inset-bottom,0px))}.floating-nav a{flex-direction:column;gap:5px;padding:9px 12px;min-width:51px;font-size:9px;border-radius:20px}.floating-nav a>span:first-child{font-size:18px}.floating-nav a:nth-child(2),.floating-nav a:nth-child(3){display:flex}footer{padding-bottom:120px}}
