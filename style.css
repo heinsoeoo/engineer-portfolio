@@ -27,3 +27,10 @@ html[data-theme=dark] .floating-nav{background:rgba(35,43,32,.86);border-color:#
 html[data-theme=dark] .floating-nav a{color:#bac4b2}html[data-theme=dark] .floating-nav a.active{background:#dbe8ce;color:#252d22}html[data-theme=dark] .floating-nav a:hover{background:#ffffff12;color:#eff0e7}html[data-theme=dark] .floating-nav a.active:hover{background:#c7dbb6;color:#252d22}
 footer{padding-bottom:120px}html{scroll-padding-bottom:120px}
 @media(max-width:600px){.floating-nav{gap:2px;padding:6px;border-radius:26px;bottom:calc(18px + env(safe-area-inset-bottom,0px))}.floating-nav a{flex-direction:column;gap:5px;padding:9px 12px;min-width:51px;font-size:9px;border-radius:20px}.floating-nav a>span:first-child{font-size:18px}.floating-nav a:nth-child(2),.floating-nav a:nth-child(3){display:flex}footer{padding-bottom:120px}}
+
+.arrow-icon{width:1em;height:1em;display:inline-block;vertical-align:-.12em;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.project-arrow .arrow-icon{width:20px;height:20px}.floating-nav a>span:first-child .arrow-icon{width:16px;height:16px}
+.floating-nav{padding:5px;gap:4px;border-radius:24px}
+.floating-nav a{padding:9px 19px;border-radius:20px;font-size:11px;gap:8px}
+.floating-nav a>span:first-child{font-size:16px}
+@media(max-width:600px){.floating-nav{width:calc(100vw - 40px);max-width:390px;padding:5px;gap:2px;border-radius:24px}.floating-nav a{flex:1;min-width:0;flex-direction:row;justify-content:center;padding:10px 4px;gap:4px;font-size:9px;border-radius:20px}.floating-nav a>span:first-child{font-size:13px}.floating-nav a>span:first-child .arrow-icon{width:13px;height:13px}}
