@@ -1,36 +1,30 @@
 # Hein Soe Oo — Personal portfolio
 
-A responsive, buildless website. No package installation or build step is required.
+Responsive portfolio with dark/light mode and confidential-project placeholders.
+
+Live site: https://engineering-portfolio-hein-1014.softdell64.chatgpt.site
 
 ## Run locally
-
-From this folder, run:
 
 ```sh
 python3 -m http.server 8080
 ```
 
-Open http://localhost:8080. You can also open index.html directly; copying email requires HTTPS or localhost.
+Open http://localhost:8080. No installation or build required.
 
 ## Customize
 
-- `content.js`: contact links, project placeholders, skills, and employment history.
-- `index.html`: name, biography, headline, metadata, and section copy.
-- `style.css`: colors, typography, layout, responsive styles.
-- `app.js`: theme persistence, case-study dialogs, and copy-email behavior.
-
-Project images are CSS illustrations, clearly labeled as placeholders. Replace them with approved screenshots and add only verified outcomes. Legacy FA employment and the Team Lead role were confirmed by the user on 14 October 2026. EDKA and Legacy dates overlap; preserve if both were concurrent, otherwise correct after checking.
-
-Contact details come from the supplied CV. Telephone is deliberately omitted from this public-facing page. Fonts load from Google Fonts with system fallbacks.
+- content.js: projects, skills, experience, contact links.
+- index.html: headline, biography and metadata.
+- style.css: colors, typography and layout.
+- app.js: interactions and theme persistence.
 
 ## Deploy
 
-Upload the contents of `` to any static host. For Cloudflare Pages or Netlify use no build command and set the publish directory to `.`. For GitHub Pages, place the website files in the chosen publishing folder or deploy them using a Pages artifact workflow. All asset paths are relative so subdirectory hosting works.
+Upload index.html, style.css, content.js and app.js to a static host. Use no build command and publish directory `.`. All asset paths are relative.
 
-Live website: https://engineering-portfolio-hein-1014.softdell64.chatgpt.site
+GitHub changes do not automatically update the Sites deployment; redeploy or connect this repository to a static hosting service.
 
-The Sites deployment is public. Changes pushed to this repository do not automatically update Sites; redeploy after editing, or connect this repository to a static host.
+## Content
 
-## Content provenance
-
-Employment, contact details, and most technologies: CV supplied by the user, updated 20 March 2025. Team lead, integrations, and architecture: explicit user-provided context. No invented achievements or performance statistics. Illustrative project cards are not claims of delivered projects.
+Project interfaces are clearly labeled illustrations. Replace them only with approved project details and verified outcomes. Employment and technologies are based on the supplied CV and user confirmations: Legacy FA is current with a Team Lead role; EDKA was Hybrid.
