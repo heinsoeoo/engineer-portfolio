@@ -129,15 +129,17 @@ const contentBehindWelcome=[...document.body.children].filter(el=>el!==welcome &
 let welcomeDismissed=false;
 contentBehindWelcome.forEach(el=>el.inert=true);
 const originalOverflow=document.body.style.overflow;document.body.style.overflow='hidden';
-welcomeSkip.focus({preventScroll:true});
+welcomeSkip.dataset.autoFocus='true';welcomeSkip.focus({preventScroll:true});
 function dismissWelcome(){
  if(welcomeDismissed)return;welcomeDismissed=true;
  clearTimeout(welcomeTimer);
  contentBehindWelcome.forEach(el=>el.inert=false);document.body.style.overflow=originalOverflow;
  welcome.classList.add('leaving');welcome.setAttribute('aria-hidden','true');welcome.inert=true;
- if(document.activeElement===welcomeSkip)document.querySelector('.wordmark').focus({preventScroll:true});
+ if(document.activeElement===welcomeSkip){const wordmark=document.querySelector('.wordmark');wordmark.dataset.autoFocus='true';wordmark.focus({preventScroll:true})}
  setTimeout(()=>welcome.remove(),welcomeReduced?0:850);
 }
 const welcomeTimer=setTimeout(dismissWelcome,welcomeReduced?4000:4000);
 welcomeSkip.addEventListener('click',dismissWelcome);
 welcome.addEventListener('keydown',event=>{if(event.key==='Escape')dismissWelcome();if(event.key==='Tab'){event.preventDefault();welcomeSkip.focus()}});
+
+document.addEventListener('keydown',event=>{if(event.key==='Tab')document.querySelectorAll('[data-auto-focus]').forEach(el=>delete el.dataset.autoFocus)},true);
