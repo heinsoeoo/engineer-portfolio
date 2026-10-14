@@ -8,7 +8,22 @@ document.querySelector('#skills-list').innerHTML=data.skills.map(s=>`<div><h3>${
 document.querySelector('#timeline').innerHTML=data.experience.map(j=>`<article class="job"><div class="job-date">${escapeHTML(j.date)}</div><div><h3>${escapeHTML(j.company)}</h3><div class="job-role">${escapeHTML(j.role)}</div><p>${escapeHTML(j.detail)}</p>${j.note?`<p class="small">${escapeHTML(j.note)}</p>`:''}</div></article>`).join('');
 document.querySelectorAll('[data-project]').forEach(b=>b.addEventListener('click',()=>{const p=data.projects[Number(b.dataset.project)];document.querySelector('#dialog-title').textContent=p.title;document.querySelector('#dialog-description').textContent=p.description;document.querySelector('#dialog-tags').innerHTML=tags(p.tags);dialog.showModal()}));
 document.querySelector('.close').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});
-const theme=document.querySelector('.theme');function syncTheme(){const dark=document.documentElement.dataset.theme==='dark';theme.setAttribute('aria-label',`Switch to ${dark?'light':'dark'} mode`);theme.setAttribute('aria-pressed',String(dark));document.querySelector('meta[name="theme-color"]').content=dark?'#191d18':'#f4f3ee'}syncTheme();theme.addEventListener('click',()=>{document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('theme',document.documentElement.dataset.theme)}catch(e){}syncTheme()});
+const theme=document.querySelector('.theme');function syncTheme(){const dark=document.documentElement.dataset.theme==='dark';theme.setAttribute('aria-label',`Switch to ${dark?'light':'dark'} mode`);theme.setAttribute('aria-pressed',String(dark));document.querySelector('meta[name="theme-color"]').content=dark?'#191d18':'#f4f3ee'}syncTheme();let themeTransitionRunning=false;
+function applyTheme(){document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('theme',document.documentElement.dataset.theme)}catch(e){}syncTheme()}
+theme.addEventListener('click',async()=>{
+ if(themeTransitionRunning)return;
+ if(!document.startViewTransition||matchMedia('(prefers-reduced-motion: reduce)').matches){applyTheme();return}
+ const rect=theme.getBoundingClientRect(),x=rect.left+rect.width/2,y=rect.top+rect.height/2;
+ const radius=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+ themeTransitionRunning=true;
+ document.documentElement.classList.add('theme-reveal');
+ try{
+  const transition=document.startViewTransition(applyTheme);
+  await transition.ready;
+  await document.documentElement.animate({clipPath:[`circle(0px at ${x}px ${y}px)`,`circle(${radius}px at ${x}px ${y}px)`]},{duration:650,easing:'cubic-bezier(.22,1,.36,1)',pseudoElement:'::view-transition-new(root)'}).finished;
+  await transition.finished;
+ }catch(e){}finally{document.documentElement.classList.remove('theme-reveal');themeTransitionRunning=false}
+});
 const email=document.querySelector('#email-link');email.href=`mailto:${data.email}`;email.replaceChildren(document.createTextNode(data.email+' '),Object.assign(document.createElement('span'),{innerHTML:arrowIcon}));document.querySelector('#github').href=data.github;document.querySelector('#linkedin').href=data.linkedin;
 document.querySelector('#copy-email').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(data.email);document.querySelector('#copy-status').textContent='Email copied.'}catch(e){document.querySelector('#copy-status').textContent=`Copy this address: ${data.email}`}});document.querySelector('#year').textContent=new Date().getFullYear();
 

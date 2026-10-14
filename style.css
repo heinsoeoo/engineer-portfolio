@@ -46,3 +46,10 @@ html[data-theme=dark] .floating-nav.has-blob a.active,html[data-theme=dark] .flo
 
 .floating-nav .nav-blob{transition-timing-function:cubic-bezier(.65,0,.35,1);transition-duration:var(--nav-travel-duration,520ms)}
 @media(prefers-reduced-motion:reduce){.floating-nav .nav-blob{transition-duration:0ms}}
+
+.theme{border:0;background:transparent;padding:0;display:grid;place-items:center;width:40px;height:40px;line-height:0;border-radius:0}
+.theme svg{display:block;width:34px;height:34px}.theme:hover{transform:rotate(12deg)}
+html.theme-reveal::view-transition-old(root),html.theme-reveal::view-transition-new(root){animation:none;mix-blend-mode:normal}
+html.theme-reveal::view-transition-old(root){z-index:1}html.theme-reveal::view-transition-new(root){z-index:2}
+html.theme-reveal *,html.theme-reveal *::before,html.theme-reveal *::after{transition:none!important}
+@media(max-width:600px){.theme{width:38px;height:38px}.theme svg{width:34px;height:34px}}
