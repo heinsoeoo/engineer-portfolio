@@ -41,11 +41,16 @@ const floatingLinks=[...document.querySelectorAll('.floating-nav a')];
 const trackedSections=[document.querySelector('.hero'),...['work','about','experience','contact'].map(id=>document.getElementById(id))];
 let navFramePending=false;
 let navigationScrollLocked=false;
+let settledSectionIndex=0;
 function updateFloatingNav(){
  if(navigationScrollLocked){navFramePending=false;return}
- let current='main';
- for(const section of trackedSections){if(section.getBoundingClientRect().top<=window.innerHeight*.4)current=section.id||'main'}
- if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-12)current='contact';
+ const anchor=window.innerHeight*.4,buffer=40;
+ let nextIndex=settledSectionIndex;
+ while(nextIndex<trackedSections.length-1 && trackedSections[nextIndex+1].getBoundingClientRect().top<anchor-buffer)nextIndex++;
+ while(nextIndex>0 && trackedSections[nextIndex].getBoundingClientRect().top>anchor+buffer)nextIndex--;
+ if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-12)nextIndex=trackedSections.length-1;
+ settledSectionIndex=nextIndex;
+ const current=trackedSections[nextIndex].id||'main';
  floatingLinks.forEach(link=>{const active=link.dataset.section===current;link.classList.toggle('active',active);if(active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current')});
  if(window.moveNavBlob)window.moveNavBlob();
  navFramePending=false;
@@ -55,17 +60,31 @@ window.addEventListener('resize',updateFloatingNav);updateFloatingNav();
 
 const floatingNav=document.querySelector('.floating-nav');
 const navBlob=document.createElement('span');navBlob.className='nav-blob';navBlob.setAttribute('aria-hidden','true');floatingNav.prepend(navBlob);
-let previousBlobX=null,blobAnimation=null;
+let blobFrame=null,blobState=null,blobTarget=null;
+let navGeometry=new Map();
+function measureNavGeometry(){navGeometry=new Map(floatingLinks.map(link=>[link,{x:link.offsetLeft,y:link.offsetTop,w:link.offsetWidth,h:link.offsetHeight}]))}
+measureNavGeometry();
+function paintBlob(state){navBlob.style.width=state.w+'px';navBlob.style.height=state.h+'px';navBlob.style.transform=`translate3d(${state.x}px,${state.y}px,0)`;navBlob.style.borderRadius=(state.h/2)+'px'}
 window.moveNavBlob=function(){
- const active=floatingNav.querySelector('a.active');if(!active)return;
- const x=active.offsetLeft,y=active.offsetTop,w=active.offsetWidth,h=active.offsetHeight;
- navBlob.style.width=w+'px';navBlob.style.height=h+'px';navBlob.style.transform=`translate(${x}px,${y}px)`;
- if(previousBlobX!==null && previousBlobX!==x && !matchMedia('(prefers-reduced-motion: reduce)').matches){
-  if(blobAnimation)blobAnimation.cancel();
-  blobAnimation=navBlob.animate([{scale:'1 1',borderRadius:'22px'},{scale:'1.12 .88',borderRadius:'25px',offset:.35},{scale:'.98 1.03',borderRadius:'21px',offset:.75},{scale:'1 1',borderRadius:'22px'}],{duration:Number(floatingNav.dataset.travelDuration)||520,easing:'cubic-bezier(.22,1,.36,1)'});
+ const active=floatingNav.querySelector('a.active'),target=navGeometry.get(active);if(!target)return;
+ if(blobTarget && ['x','y','w','h'].every(key=>blobTarget[key]===target[key]))return;
+ if(blobFrame!==null)cancelAnimationFrame(blobFrame);
+ blobTarget={...target};
+ if(!blobState||matchMedia('(prefers-reduced-motion: reduce)').matches){blobState={...target};paintBlob(blobState);return}
+ const from={...blobState},began=performance.now(),duration=Number(floatingNav.dataset.travelDuration)||380;
+ const ease=t=>t*t*(3-2*t);
+ const distance=target.x-from.x;
+ function animate(now){
+  const progress=Math.min(1,(now-began)/duration),t=ease(progress);
+  // A small traveling extension creates fluidity without spring overshoot.
+  const extension=Math.min(10,Math.abs(distance)*.1)*Math.sin(Math.PI*progress);
+  blobState={x:from.x+(target.x-from.x)*t-(distance<0?extension:0),y:from.y+(target.y-from.y)*t,w:from.w+(target.w-from.w)*t+extension,h:from.h+(target.h-from.h)*t};
+  paintBlob(blobState);
+  if(progress<1)blobFrame=requestAnimationFrame(animate);else{blobFrame=null;blobState={...target};paintBlob(blobState)}
  }
- previousBlobX=x;
+ blobFrame=requestAnimationFrame(animate);
 };
+window.addEventListener('resize',()=>{measureNavGeometry();blobTarget=null;window.moveNavBlob()});
 window.moveNavBlob();floatingNav.classList.add('has-blob');
 let navigationFrame=null;
 function finishNavigationScroll(){
@@ -100,4 +119,4 @@ floatingLinks.forEach(link=>link.addEventListener('click',event=>{
 }));
 ['wheel','touchstart'].forEach(type=>window.addEventListener(type,()=>{if(navigationScrollLocked)finishNavigationScroll()},{passive:true}));
 window.addEventListener('keydown',event=>{if(navigationScrollLocked&&['ArrowUp','ArrowDown','PageUp','PageDown','Home','End','Escape',' '].includes(event.key))finishNavigationScroll()});
-if(document.fonts)document.fonts.ready.then(()=>window.moveNavBlob());
+if(document.fonts)document.fonts.ready.then(()=>{measureNavGeometry();blobTarget=null;window.moveNavBlob()});
