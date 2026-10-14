@@ -12,3 +12,10 @@ const email=document.querySelector('#email-link');email.href=`mailto:${data.emai
 document.querySelector('#copy-email').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(data.email);document.querySelector('#copy-status').textContent='Email copied.'}catch(e){document.querySelector('#copy-status').textContent=`Copy this address: ${data.email}`}});document.querySelector('#year').textContent=new Date().getFullYear();
 
 const wechatDialog=document.querySelector('#wechat-dialog');document.querySelector('#wechat-open').addEventListener('click',()=>wechatDialog.showModal());document.querySelector('#wechat-close').addEventListener('click',()=>wechatDialog.close());
+// Progressive enhancement: content remains visible without JavaScript or motion.
+if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window){
+ const reveals=[...document.querySelectorAll('.section-top,section:not(.hero) h2,.project,.about-copy,.skill-grid,.job,.contact p,.email,.contact-links,.messenger-links')];
+ document.documentElement.classList.add('motion-ready');
+ const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}}),{threshold:0.08});
+ reveals.forEach(el=>{el.classList.add('reveal');observer.observe(el)});
+}
