@@ -34,3 +34,15 @@ footer{padding-bottom:120px}html{scroll-padding-bottom:120px}
 .floating-nav a{padding:9px 19px;border-radius:20px;font-size:11px;gap:8px}
 .floating-nav a>span:first-child{font-size:16px}
 @media(max-width:600px){.floating-nav{width:calc(100vw - 40px);max-width:390px;padding:5px;gap:2px;border-radius:24px}.floating-nav a{flex:1;min-width:0;flex-direction:row;justify-content:center;padding:10px 4px;gap:4px;font-size:9px;border-radius:20px}.floating-nav a>span:first-child{font-size:13px}.floating-nav a>span:first-child .arrow-icon{width:13px;height:13px}}
+
+/* One shared fluid highlight travels between navigation items. */
+.floating-nav{isolation:isolate}
+.floating-nav a{position:relative;z-index:1}
+.floating-nav .nav-blob{position:absolute;z-index:0;left:0;top:0;pointer-events:none;background:#252d22;border-radius:22px;box-shadow:0 2px 8px #17201320;transition:transform .52s cubic-bezier(.22,1,.36,1),width .52s cubic-bezier(.22,1,.36,1),height .52s cubic-bezier(.22,1,.36,1)}
+.floating-nav.has-blob a.active,.floating-nav.has-blob a.active:hover{background:transparent;box-shadow:none}
+html[data-theme=dark] .floating-nav .nav-blob{background:#dbe8ce}
+html[data-theme=dark] .floating-nav.has-blob a.active,html[data-theme=dark] .floating-nav.has-blob a.active:hover{background:transparent;color:#252d22}
+@media(prefers-reduced-motion:reduce){.floating-nav .nav-blob{transition:none}}
+
+.floating-nav .nav-blob{transition-timing-function:cubic-bezier(.65,0,.35,1);transition-duration:var(--nav-travel-duration,520ms)}
+@media(prefers-reduced-motion:reduce){.floating-nav .nav-blob{transition-duration:0ms}}
