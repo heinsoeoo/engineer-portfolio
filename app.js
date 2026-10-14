@@ -138,6 +138,6 @@ function dismissWelcome(){
  if(document.activeElement===welcomeSkip)document.querySelector('.wordmark').focus({preventScroll:true});
  setTimeout(()=>welcome.remove(),welcomeReduced?0:850);
 }
-const welcomeTimer=setTimeout(dismissWelcome,welcomeReduced?900:2400);
+const welcomeTimer=setTimeout(dismissWelcome,welcomeReduced?4000:4000);
 welcomeSkip.addEventListener('click',dismissWelcome);
 welcome.addEventListener('keydown',event=>{if(event.key==='Escape')dismissWelcome();if(event.key==='Tab'){event.preventDefault();welcomeSkip.focus()}});

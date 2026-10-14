@@ -60,6 +60,19 @@ html.theme-reveal *,html.theme-reveal *::before,html.theme-reveal *::after{trans
 .floating-nav .nav-blob{transition:background-color .3s ease;will-change:transform,width;box-shadow:0 2px 7px #17201318}
 
 .welcome{position:fixed;inset:0;z-index:1000;background:#171c18;color:#eeeae0;display:flex;flex-direction:column;justify-content:space-between;padding:35px 6%;opacity:1;transition:opacity .65s ease,transform .85s cubic-bezier(.22,1,.36,1);overflow:auto}
-.welcome-top,.welcome-bottom{display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:10px;letter-spacing:2px}.welcome-top button{background:none;border:0;color:#d1bf98;font-size:11px;letter-spacing:0;padding:12px;min-height:44px}.welcome-center{text-align:center;padding:30px 0}.welcome-mark{width:62px;height:62px;margin-bottom:30px;fill:none;stroke:#c7b083;stroke-width:3;stroke-linecap:round}.welcome-mark circle{fill:#c7b083;stroke:none}.welcome-label{display:block;color:#bba982;font-size:9px;letter-spacing:3px}.welcome h2{font-size:clamp(35px,5vw,70px);line-height:1.2;margin:24px 0 20px;letter-spacing:-2px}.welcome h2 em{color:#d1bf98}.welcome p{color:#9da397;font-size:13px}.welcome-bottom{color:#8a9385;font-size:8px}.welcome-line{width:120px;height:1px;background:#394034;overflow:hidden}.welcome-line i{display:block;width:100%;height:1px;background:#c7b083;transform-origin:left;animation:welcome-progress 2.4s ease both}.welcome.leaving{opacity:0;transform:translateY(-18px);pointer-events:none}@keyframes welcome-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.welcome-top,.welcome-bottom{display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:10px;letter-spacing:2px}.welcome-top button{background:none;border:0;color:#d1bf98;font-size:11px;letter-spacing:0;padding:12px;min-height:44px}.welcome-center{text-align:center;padding:30px 0}.welcome-mark{width:62px;height:62px;margin-bottom:30px;fill:none;stroke:#c7b083;stroke-width:3;stroke-linecap:round}.welcome-mark circle{fill:#c7b083;stroke:none}.welcome-label{display:block;color:#bba982;font-size:9px;letter-spacing:3px}.welcome h2{font-size:clamp(35px,5vw,70px);line-height:1.2;margin:24px 0 20px;letter-spacing:-2px}.welcome h2 em{color:#d1bf98}.welcome p{color:#9da397;font-size:13px}.welcome-bottom{color:#8a9385;font-size:8px}.welcome-line{width:120px;height:1px;background:#394034;overflow:hidden}.welcome-line i{display:block;width:100%;height:1px;background:#c7b083;transform-origin:left;animation:welcome-progress 4s ease both}.welcome.leaving{opacity:0;transform:translateY(-18px);pointer-events:none}@keyframes welcome-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @media(max-width:600px){.welcome{padding:20px 6%;padding-bottom:calc(25px + env(safe-area-inset-bottom,0px))}.welcome h2{font-size:38px;letter-spacing:-1px}.welcome-bottom{letter-spacing:1px;font-size:7px;gap:12px}.welcome-line{width:50px}.welcome-mark{width:52px;height:52px}}
 @media(prefers-reduced-motion:reduce){.welcome{transition:none}.welcome-line i{animation:none}}
+
+/* Muted gold connects the portfolio to its opening signature. */
+:root{--accent:#80602b;--gold:#b79860;--gold-soft:#e9dfca}
+html[data-theme=dark]{--accent:#d1bf98;--gold:#c7b083;--gold-soft:#3a3428}
+.dot{background:var(--gold)}.system{background:linear-gradient(120deg,var(--card),var(--gold-soft))}
+.wordmark span{color:var(--accent)}
+.floating-nav .nav-blob{background:#342b1d}
+html[data-theme=dark] .floating-nav .nav-blob{background:#d1bf98}
+html[data-theme=dark] .floating-nav.has-blob a.active,html[data-theme=dark] .floating-nav.has-blob a.active:hover{color:#292419}
+.floating-nav a:hover{background:#b7986015;color:var(--accent)}
+html[data-theme=dark] .floating-nav a:hover{background:#c7b08316;color:var(--accent)}
+.theme svg{color:var(--accent)}.email{border-bottom-color:var(--gold)}
+.button:hover{background:#342b1d}.tags span{border-color:var(--line)}
