@@ -86,3 +86,7 @@ html:not([data-theme="dark"]) .floating-nav a:hover{background:#51644118;color:#
 
 .wordmark,#welcome-skip{border:none;box-shadow:none}
 [data-auto-focus]:focus{outline:none}
+
+html:not([data-theme="dark"]) .button{background:#252722;color:#f4f3ee;transition:background-color .2s ease,transform .2s ease,box-shadow .2s ease}
+html:not([data-theme="dark"]) .button:hover{background:#34432d;color:#f4f3ee;transform:translateY(-2px);box-shadow:0 5px 14px #25272215}
+html:not([data-theme="dark"]) .button:active{background:#252722;transform:translateY(0) scale(.98);box-shadow:none}
